@@ -13,6 +13,6 @@ app.get("/", (req: Request, res: Response) => {
     res.send("Servidor funcionando");
 });
 
-app.listen(3001, () =>
+app.listen(5173, () =>
     console.log("Servidor listo en http://localhost:3001")
 );

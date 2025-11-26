@@ -1,30 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+interface Usuario {
+  id: number;
+  nombre: string;
+}
 
 function App() {
-  const [contador, setContador] = useState(0);
+  const [usuarios, setUsuarios] = useState<Usuario[]>([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3001/api/getUsers")
+      .then((res) => res.json())
+      .then((data) => {
+        setUsuarios(data);
+      })
+      .catch((err) => console.error("Error:", err));
+  }, []);
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>Página Simple en React</h1>
+    <div style={{ padding: "20px" }}>
+      <h1>Usuarios desde el Backend</h1>
 
-      <p>Contador: {contador}</p>
-
-      <button
-        onClick={() => setContador(contador + 1)}
-        style={{
-          padding: "10px 20px",
-          background: "blue",
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer"
-        }}
-      >
-        Aumentar contador
-      </button>
+      {usuarios.map((u) => (
+        <p key={u.id}>
+          {u.id} - {u.nombre}
+        </p>
+      ))}
     </div>
   );
 }
 
 export default App;
-
